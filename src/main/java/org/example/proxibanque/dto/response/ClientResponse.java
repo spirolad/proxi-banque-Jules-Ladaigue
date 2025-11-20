@@ -18,5 +18,7 @@ public class ClientResponse {
     private String ville;
     private String telephone;
     private String agency;
+    private Long runningAccountAmount;
+    private Long savingsAccountAmount;
 
 }

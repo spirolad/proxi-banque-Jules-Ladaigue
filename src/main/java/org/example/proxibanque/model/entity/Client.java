@@ -23,7 +23,7 @@ public class Client {
     private String ville;
     private String telephone;
 
-    @OneToOne(mappedBy = "client")
+    @OneToOne(mappedBy = "client", cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     private RunningAccount runningAccount;
 
     @OneToOne(mappedBy = "client")

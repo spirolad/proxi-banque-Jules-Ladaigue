@@ -16,17 +16,21 @@ public class RunningAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long accountNumber;
+    private Long accountNumber;
 
-    protected Long solde = 0L;
+    private Long solde = 0L;
 
-    protected OffsetDateTime created_at = OffsetDateTime.now();
+    private OffsetDateTime created_at = OffsetDateTime.now();
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
     private Long minimumBalance = 1000L;
+
+    public RunningAccount(Long initialAmount) {
+        this.solde = initialAmount;
+    }
 
     public boolean deposit(Long value) {
         this.minimumBalance += value;

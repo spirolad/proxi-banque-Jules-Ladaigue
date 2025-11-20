@@ -14,6 +14,12 @@ public class ClientMapper {
         clientResponse.setCodePostal(client.getCodePostal());
         clientResponse.setAgency(client.getAgency().getId());
         clientResponse.setVille(client.getVille());
+        if (client.getRunningAccount() != null) {
+            clientResponse.setRunningAccountAmount(client.getRunningAccount().getSolde());
+        }
+        if (client.getSavingsAccount() != null) {
+            clientResponse.setSavingsAccountAmount(client.getSavingsAccount().getSolde());
+        }
         return clientResponse;
     }
 
