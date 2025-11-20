@@ -3,12 +3,14 @@ package org.example.proxibanque.service.impl;
 import jakarta.annotation.PostConstruct;
 import org.example.proxibanque.dto.request.AgencyCreateRequest;
 import org.example.proxibanque.model.entity.Agency;
+import org.example.proxibanque.model.entity.Client;
 import org.example.proxibanque.model.repository.AgencyRepository;
 import org.example.proxibanque.service.AgencyService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AgencyServiceImpl implements AgencyService {
@@ -44,5 +46,11 @@ public class AgencyServiceImpl implements AgencyService {
     @Override
     public Optional<Agency> getAgency(String id) {
         return agencyRepository.findById(id);
+    }
+
+    @Override
+    public Set<Client> getAllClients(String id) {
+        Optional<Agency> agency = getAgency(id);
+        return agency.map(Agency::getClients).orElse(null);
     }
 }

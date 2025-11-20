@@ -2,6 +2,7 @@ package org.example.proxibanque.controller;
 
 import org.example.proxibanque.dto.request.ClientCreateRequest;
 import org.example.proxibanque.dto.response.ClientResponse;
+import org.example.proxibanque.mapper.ClientMapper;
 import org.example.proxibanque.model.entity.Client;
 import org.example.proxibanque.service.ClientService;
 import org.springframework.http.ResponseEntity;
@@ -24,20 +25,7 @@ public class ClientController {
         if (client == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(clientToDto(client));
-    }
-
-
-    private ClientResponse clientToDto(Client client) {
-        ClientResponse clientResponse = new ClientResponse();
-        clientResponse.setAdresse(client.getAdresse());
-        clientResponse.setNom(client.getNom());
-        clientResponse.setPrenom(client.getPrenom());
-        clientResponse.setTelephone(client.getTelephone());
-        clientResponse.setCodePostal(client.getCodePostal());
-        clientResponse.setAgency(client.getAgency().getId());
-        clientResponse.setVille(client.getVille());
-        return clientResponse;
+        return ResponseEntity.ok(ClientMapper.clientToDto(client));
     }
 
 }
