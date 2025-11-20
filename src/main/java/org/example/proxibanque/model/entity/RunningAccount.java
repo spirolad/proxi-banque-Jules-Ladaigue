@@ -22,7 +22,7 @@ public class RunningAccount {
 
     private OffsetDateTime created_at = OffsetDateTime.now();
 
-    @OneToOne(cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
+    @OneToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 

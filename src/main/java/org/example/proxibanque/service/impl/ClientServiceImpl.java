@@ -43,6 +43,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public void deleteClient(Long id) {
+        clientRepository.deleteById(id);
+    }
+
+    @Override
     public Client openAccount(Long clientId, CreateRunningAccountRequest accountDto) {
         Client client = clientRepository.getClientById(clientId);
         RunningAccount runningAccount = new RunningAccount(accountDto.getInitialAmount());

@@ -12,6 +12,8 @@ public interface ClientService {
 
     List<Client> getAllClients();
 
+    void deleteClient(Long id);
+
     Client openAccount(Long clientId, CreateRunningAccountRequest accountDto);
 
 }

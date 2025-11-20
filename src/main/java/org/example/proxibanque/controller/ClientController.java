@@ -35,6 +35,12 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
+    @DeleteMapping("clients/{id}")
+    public ResponseEntity<ClientResponse> deleteClient(@PathVariable Long id) {
+        clientService.deleteClient(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping("clients/{id}/runningAccount")
     public ResponseEntity<ClientResponse> openRunningAccount(@PathVariable Long id, @RequestBody CreateRunningAccountRequest clientDto) {
         Client client = clientService.openAccount(id, clientDto);
