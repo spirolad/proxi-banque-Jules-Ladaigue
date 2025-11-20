@@ -17,9 +17,6 @@ public class ClientMapper {
         if (client.getRunningAccount() != null) {
             clientResponse.setRunningAccountAmount(client.getRunningAccount().getSolde());
         }
-        if (client.getSavingsAccount() != null) {
-            clientResponse.setSavingsAccountAmount(client.getSavingsAccount().getSolde());
-        }
         return clientResponse;
     }
 

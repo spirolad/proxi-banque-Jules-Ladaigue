@@ -26,9 +26,6 @@ public class Client {
     @OneToOne(mappedBy = "client", cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
     private RunningAccount runningAccount;
 
-    @OneToOne(mappedBy = "client")
-    private SavingsAccount savingsAccount;
-
     @ManyToOne
     @JoinColumn(name="agency_id")
     private Agency agency;
