@@ -2,6 +2,7 @@ package org.example.proxibanque.service.impl;
 
 import org.example.proxibanque.dto.request.ClientCreateRequest;
 import org.example.proxibanque.dto.request.CreateRunningAccountRequest;
+import org.example.proxibanque.dto.request.TransferRequest;
 import org.example.proxibanque.model.entity.Agency;
 import org.example.proxibanque.model.entity.Client;
 import org.example.proxibanque.model.entity.RunningAccount;
@@ -54,5 +55,21 @@ public class ClientServiceImpl implements ClientService {
         client.setRunningAccount(runningAccount);
         clientRepository.save(client);
         return client;
+    }
+
+    @Override
+    public boolean transferMoney(Long clientId, Long targetId, TransferRequest transferRequest) {
+        Client client = clientRepository.getClientById(clientId);
+        Client targetClient = clientRepository.getClientById(targetId);
+        if (client.getRunningAccount() ==  null || targetClient.getRunningAccount() == null) {
+            return false;
+        }
+        if (!client.getRunningAccount().withdraw(transferRequest.getAmount())) {
+            return false;
+        }
+        targetClient.getRunningAccount().deposit(transferRequest.getAmount());
+        clientRepository.save(targetClient);
+        clientRepository.save(client);
+        return true;
     }
 }

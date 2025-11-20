@@ -2,6 +2,7 @@ package org.example.proxibanque.controller;
 
 import org.example.proxibanque.dto.request.ClientCreateRequest;
 import org.example.proxibanque.dto.request.CreateRunningAccountRequest;
+import org.example.proxibanque.dto.request.TransferRequest;
 import org.example.proxibanque.dto.response.ClientResponse;
 import org.example.proxibanque.mapper.ClientMapper;
 import org.example.proxibanque.model.entity.Client;
@@ -48,6 +49,15 @@ public class ClientController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(ClientMapper.clientToDto(client));
+    }
+
+    @PostMapping("clients/{id}/transfer/{target}")
+    public ResponseEntity<ClientResponse> transferMoney(@PathVariable Long id, @PathVariable Long target, @RequestBody TransferRequest transferRequest) {
+        boolean success = clientService.transferMoney(id, target, transferRequest);
+        if (!success) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 
 }
