@@ -49,6 +49,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Optional<Client> getClientById(Long id) {
+        return clientRepository.findById(id);
+    }
+
+    @Override
     public Client openAccount(Long clientId, CreateRunningAccountRequest accountDto) {
         Client client = clientRepository.getClientById(clientId);
         RunningAccount runningAccount = new RunningAccount(accountDto.getInitialAmount());
@@ -61,6 +66,8 @@ public class ClientServiceImpl implements ClientService {
     public boolean transferMoney(Long clientId, Long targetId, TransferRequest transferRequest) {
         Client client = clientRepository.getClientById(clientId);
         Client targetClient = clientRepository.getClientById(targetId);
+        if (client == null || targetClient == null)
+            return false;
         if (client.getRunningAccount() ==  null || targetClient.getRunningAccount() == null) {
             return false;
         }
@@ -71,5 +78,32 @@ public class ClientServiceImpl implements ClientService {
         clientRepository.save(targetClient);
         clientRepository.save(client);
         return true;
+    }
+
+    @Override
+    public Client deposit(Long clientId, TransferRequest transferRequest) {
+        Client client = clientRepository.getClientById(clientId);
+        if  (client == null)
+            return null;
+        RunningAccount runningAccount = client.getRunningAccount();
+        if (runningAccount == null)
+            return null;
+        runningAccount.deposit(transferRequest.getAmount());
+        clientRepository.save(client);
+        return client;
+    }
+
+    @Override
+    public Client withdraw(Long clientId, TransferRequest transferRequest) {
+        Client client = clientRepository.getClientById(clientId);
+        if (client == null)
+            return null;
+        RunningAccount runningAccount = client.getRunningAccount();
+        if (runningAccount == null)
+            return null;
+        if (!runningAccount.withdraw(transferRequest.getAmount()))
+            return null;
+        clientRepository.save(client);
+        return client;
     }
 }

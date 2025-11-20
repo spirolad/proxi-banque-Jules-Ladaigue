@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ClientController {
@@ -42,9 +43,34 @@ public class ClientController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("clients/{id}")
+    public ResponseEntity<ClientResponse> getClient(@PathVariable Long id) {
+        Optional<Client> clientOptional = clientService.getClientById(id);
+        return clientOptional.map(client -> ResponseEntity.ok(ClientMapper.clientToDto(client))).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @PostMapping("clients/{id}/runningAccount")
     public ResponseEntity<ClientResponse> openRunningAccount(@PathVariable Long id, @RequestBody CreateRunningAccountRequest clientDto) {
         Client client = clientService.openAccount(id, clientDto);
+        if (client == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+    }
+
+
+    @PostMapping("clients/{id}/deposit")
+    public ResponseEntity<ClientResponse> deposit(@PathVariable Long id, @RequestBody TransferRequest transferDto) {
+        Client client = clientService.deposit(id, transferDto);
+        if (client == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+    }
+
+    @PostMapping("clients/{id}/withdraw")
+    public ResponseEntity<ClientResponse> withdraw(@PathVariable Long id, @RequestBody TransferRequest transferDto) {
+        Client client = clientService.withdraw(id, transferDto);
         if (client == null) {
             return ResponseEntity.badRequest().build();
         }
