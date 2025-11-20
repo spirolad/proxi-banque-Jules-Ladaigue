@@ -1,6 +1,7 @@
 package org.example.proxibanque.controller;
 
 import org.example.proxibanque.dto.request.AgencyCreateRequest;
+import org.example.proxibanque.dto.response.ClientResponse;
 import org.example.proxibanque.model.entity.Agency;
 import org.example.proxibanque.service.AgencyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,6 @@ public class AgencyController {
         Optional<Agency> agencyOptional = agencyService.getAgency(id);
         return agencyOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 
 }

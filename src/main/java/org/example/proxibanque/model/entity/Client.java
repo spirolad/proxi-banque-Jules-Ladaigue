@@ -21,7 +21,7 @@ public class Client {
     private String adresse;
     private Integer codePostal;
     private String ville;
-    private Integer telephone;
+    private String telephone;
 
     @OneToOne(mappedBy = "client")
     private RunningAccount runningAccount;
@@ -29,13 +29,18 @@ public class Client {
     @OneToOne(mappedBy = "client")
     private SavingsAccount savingsAccount;
 
-    public Client(String nom, String prenom, String adresse, Integer codePostal, String ville, Integer telephone) {
+    @ManyToOne
+    @JoinColumn(name="agency_id")
+    private Agency agency;
+
+    public Client(String nom, String prenom, String adresse, Integer codePostal, String ville, String telephone, Agency agency) {
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.codePostal = codePostal;
         this.ville = ville;
         this.telephone = telephone;
+        this.agency = agency;
     }
 
 }

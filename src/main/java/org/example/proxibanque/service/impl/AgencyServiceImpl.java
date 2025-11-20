@@ -1,5 +1,6 @@
 package org.example.proxibanque.service.impl;
 
+import jakarta.annotation.PostConstruct;
 import org.example.proxibanque.dto.request.AgencyCreateRequest;
 import org.example.proxibanque.model.entity.Agency;
 import org.example.proxibanque.model.repository.AgencyRepository;
@@ -16,6 +17,13 @@ public class AgencyServiceImpl implements AgencyService {
 
     public AgencyServiceImpl(AgencyRepository agencyRepository) {
         this.agencyRepository = agencyRepository;
+    }
+
+    @PostConstruct
+    public void init() {
+        agencyRepository.deleteAll();
+        agencyRepository.save(new Agency("strasbourg"));
+        agencyRepository.save(new Agency("nancy"));
     }
 
     @Override
