@@ -26,35 +26,23 @@ public class AgencyController {
     }
 
     @PostMapping("agencies")
-
     public ResponseEntity<AgencyResponse> createAgency(@RequestBody AgencyCreateRequest agencyDto) {
-        Agency agency = agencyService.createAgency(agencyDto);
-        if  (agency == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(AgencyMapper.agencyResponse(agency));
+        return ResponseEntity.ok(agencyService.createAgency(agencyDto));
     }
 
     @GetMapping("agencies")
     public ResponseEntity<List<AgencyResponse>> getAllAgencies() {
-        List<AgencyResponse> agencyResponseList = agencyService.getAllAgencies().stream().map(AgencyMapper::agencyResponse).toList();
-        return ResponseEntity.ok(agencyResponseList);
+        return ResponseEntity.ok(agencyService.getAllAgencies());
     }
 
     @GetMapping("agencies/{id}")
     public ResponseEntity<AgencyResponse> getAgency(@PathVariable String id) {
-        Optional<Agency> agencyOptional = agencyService.getAgency(id);
-        return agencyOptional.map(agency -> ResponseEntity.ok(AgencyMapper.agencyResponse(agency))).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(agencyService.getAgency(id));
     }
 
     @GetMapping("agencies/{id}/clients")
-    public ResponseEntity<List<ClientResponse>> getClients(@PathVariable String id) {
-        Set<Client> clients = agencyService.getAllClients(id);
-        if (clients == null) {
-            return ResponseEntity.notFound().build();
-        }
-        List<ClientResponse> clientResponseList = clients.stream().map(ClientMapper::clientToDto).toList();
-        return ResponseEntity.ok(clientResponseList);
+    public ResponseEntity<Set<ClientResponse>> getClients(@PathVariable String id) {
+        return ResponseEntity.ok(agencyService.getAllClients(id));
     }
 
 }

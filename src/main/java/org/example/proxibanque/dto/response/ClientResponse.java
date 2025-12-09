@@ -1,23 +1,6 @@
 package org.example.proxibanque.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ClientResponse {
-
-    private String nom;
-    private String prenom;
-    private String adresse;
-    private Integer codePostal;
-    private String ville;
-    private String telephone;
-    private String agency;
-    private Long runningAccountAmount;
+public record ClientResponse(String nom, String prenom, String adresse, Integer codePostal, String ville,
+                             String telephone, String agency, Long runningAccountAmount) {
 
 }

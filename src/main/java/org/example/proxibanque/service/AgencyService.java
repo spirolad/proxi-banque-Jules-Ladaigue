@@ -1,8 +1,8 @@
 package org.example.proxibanque.service;
 
 import org.example.proxibanque.dto.request.AgencyCreateRequest;
-import org.example.proxibanque.model.entity.Agency;
-import org.example.proxibanque.model.entity.Client;
+import org.example.proxibanque.dto.response.AgencyResponse;
+import org.example.proxibanque.dto.response.ClientResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,12 +10,12 @@ import java.util.Set;
 
 public interface AgencyService {
 
-    Agency createAgency(AgencyCreateRequest agency);
+    AgencyResponse createAgency(AgencyCreateRequest agency);
 
-    List<Agency> getAllAgencies();
+    List<AgencyResponse> getAllAgencies();
 
-    Optional<Agency> getAgency(String id);
+    AgencyResponse getAgency(String id);
 
-    Set<Client> getAllClients(String id);
+    Set<ClientResponse> getAllClients(String id);
 
 }

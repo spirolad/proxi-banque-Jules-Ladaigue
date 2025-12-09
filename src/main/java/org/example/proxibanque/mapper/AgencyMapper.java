@@ -2,14 +2,13 @@ package org.example.proxibanque.mapper;
 
 import org.example.proxibanque.dto.response.AgencyResponse;
 import org.example.proxibanque.model.entity.Agency;
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-public class AgencyMapper {
+@Mapper(componentModel = "spring" , unmappedTargetPolicy = ReportingPolicy.ERROR)
+public interface AgencyMapper {
 
-    public static AgencyResponse agencyResponse(Agency agency) {
-        AgencyResponse agencyResponse = new AgencyResponse();
-        agencyResponse.setId(agency.getId());
-        agencyResponse.setCreatedAt(agency.getCreatedAt());
-        return agencyResponse;
-    }
+
+    AgencyResponse toResponseDto(Agency agency);
 
 }

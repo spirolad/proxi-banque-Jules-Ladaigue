@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -33,15 +32,15 @@ public class RunningAccount {
     }
 
     public boolean deposit(Long value) {
-        this.minimumBalance += value;
+        this.solde += value;
         return true;
     }
 
     public boolean withdraw(Long value) {
-        if (this.minimumBalance - value < minimumBalance) {
+        if (this.solde - value < minimumBalance) {
             return false;
         }
-        this.minimumBalance -= value;
+        this.solde -= value;
         return true;
     }
 }

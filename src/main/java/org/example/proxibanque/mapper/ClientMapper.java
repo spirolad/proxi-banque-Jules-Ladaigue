@@ -2,22 +2,15 @@ package org.example.proxibanque.mapper;
 
 import org.example.proxibanque.dto.response.ClientResponse;
 import org.example.proxibanque.model.entity.Client;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
-public class ClientMapper {
+@Mapper(componentModel = "spring" , unmappedTargetPolicy = ReportingPolicy.ERROR)
+public interface ClientMapper {
 
-    public static ClientResponse clientToDto(Client client) {
-        ClientResponse clientResponse = new ClientResponse();
-        clientResponse.setAdresse(client.getAdresse());
-        clientResponse.setNom(client.getNom());
-        clientResponse.setPrenom(client.getPrenom());
-        clientResponse.setTelephone(client.getTelephone());
-        clientResponse.setCodePostal(client.getCodePostal());
-        clientResponse.setAgency(client.getAgency().getId());
-        clientResponse.setVille(client.getVille());
-        if (client.getRunningAccount() != null) {
-            clientResponse.setRunningAccountAmount(client.getRunningAccount().getSolde());
-        }
-        return clientResponse;
-    }
+    @Mapping(target = "runningAccountAmount", source = "client.runningAccount.solde")
+    @Mapping(target = "agency", source = "client.agency.id")
+    ClientResponse clientToDto(Client client);
 
 }

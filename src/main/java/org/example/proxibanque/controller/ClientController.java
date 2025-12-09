@@ -24,17 +24,12 @@ public class ClientController {
 
     @PostMapping("clients")
     public ResponseEntity<ClientResponse> createClient(@RequestBody ClientCreateRequest clientDto) {
-        Client client = clientService.createClient(clientDto);
-        if (client == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+        return ResponseEntity.ok(clientService.createClient(clientDto));
     }
 
     @GetMapping("clients")
     public ResponseEntity<List<ClientResponse>> getAllClients() {
-        List<ClientResponse> clients = clientService.getAllClients().stream().map(ClientMapper::clientToDto).toList();
-        return ResponseEntity.ok(clients);
+        return ResponseEntity.ok(clientService.getAllClients());
     }
 
     @DeleteMapping("clients/{id}")
@@ -45,45 +40,30 @@ public class ClientController {
 
     @GetMapping("clients/{id}")
     public ResponseEntity<ClientResponse> getClient(@PathVariable Long id) {
-        Optional<Client> clientOptional = clientService.getClientById(id);
-        return clientOptional.map(client -> ResponseEntity.ok(ClientMapper.clientToDto(client))).orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(clientService.getClientById(id));
     }
 
     @PostMapping("clients/{id}/runningAccount")
     public ResponseEntity<ClientResponse> openRunningAccount(@PathVariable Long id, @RequestBody CreateRunningAccountRequest clientDto) {
-        Client client = clientService.openAccount(id, clientDto);
-        if (client == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+        return ResponseEntity.ok(clientService.openAccount(id, clientDto));
     }
 
 
     @PostMapping("clients/{id}/deposit")
     public ResponseEntity<ClientResponse> deposit(@PathVariable Long id, @RequestBody TransferRequest transferDto) {
-        Client client = clientService.deposit(id, transferDto);
-        if (client == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+        return ResponseEntity.ok(clientService.deposit(id, transferDto));
     }
 
     @PostMapping("clients/{id}/withdraw")
     public ResponseEntity<ClientResponse> withdraw(@PathVariable Long id, @RequestBody TransferRequest transferDto) {
-        Client client = clientService.withdraw(id, transferDto);
-        if (client == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(ClientMapper.clientToDto(client));
+        return ResponseEntity.ok(clientService.withdraw(id, transferDto));
     }
 
     @PostMapping("clients/{id}/transfer/{target}")
     public ResponseEntity<ClientResponse> transferMoney(@PathVariable Long id, @PathVariable Long target, @RequestBody TransferRequest transferRequest) {
-        boolean success = clientService.transferMoney(id, target, transferRequest);
-        if (!success) {
-            return ResponseEntity.badRequest().build();
-        }
+        clientService.transferMoney(id, target, transferRequest);
         return ResponseEntity.noContent().build();
+
     }
 
 }
