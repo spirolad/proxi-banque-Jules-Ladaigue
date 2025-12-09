@@ -67,6 +67,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientResponse openAccount(Long clientId, CreateRunningAccountRequest accountDto) {
         Client client = clientRepository.getClientById(clientId);
         RunningAccount runningAccount = new RunningAccount(accountDto.initialAmount());
+        runningAccount.setClient(client);
         client.setRunningAccount(runningAccount);
         clientRepository.save(client);
         return clientMapper.clientToDto(client);

@@ -5,6 +5,7 @@ import org.example.proxibanque.dto.request.AgencyCreateRequest;
 import org.example.proxibanque.dto.response.AgencyResponse;
 import org.example.proxibanque.dto.response.ClientResponse;
 import org.example.proxibanque.exception.custom.AgencyNotFoundException;
+import org.example.proxibanque.exception.custom.InvalidDataException;
 import org.example.proxibanque.mapper.AgencyMapper;
 import org.example.proxibanque.mapper.ClientMapper;
 import org.example.proxibanque.model.entity.Agency;
@@ -14,7 +15,6 @@ import org.example.proxibanque.service.AgencyService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,7 +41,7 @@ public class AgencyServiceImpl implements AgencyService {
     @Override
     public AgencyResponse createAgency(AgencyCreateRequest agencyDto) {
         if (agencyDto == null || agencyDto.id() == null) {
-            return null;
+            throw new InvalidDataException();
         }
         Agency agency = new Agency(agencyDto.id());
         agencyRepository.save(agency);

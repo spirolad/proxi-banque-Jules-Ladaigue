@@ -25,7 +25,7 @@ public class RunningAccount {
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     private Client client;
 
-    private Long minimumBalance = 1000L;
+    private Long minimumBalance = -1000L;
 
     public RunningAccount(Long initialAmount) {
         this.solde = initialAmount;
